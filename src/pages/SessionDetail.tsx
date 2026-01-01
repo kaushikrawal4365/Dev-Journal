@@ -145,10 +145,10 @@ export function SessionDetail({ sessionId, state, setState, onBack }: SessionDet
                                 <div className="timeline-marker">
                                     <Badge variant={
                                         log.type === 'blocker' ? 'error' :
-                                            log.type === 'insight' ? 'success' :
+                                            log.type === 'idea' ? 'success' :
                                                 'default'
                                     }>
-                                        {log.type.replace('_', ' ')}
+                                        {log.type === 'idea' ? '💡 Idea' : log.type === 'blocker' ? '🚫 Blocker' : '📝 Note'}
                                     </Badge>
                                 </div>
                                 <div className="timeline-content">

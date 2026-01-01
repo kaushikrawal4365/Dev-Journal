@@ -2,7 +2,7 @@ export type SessionStatus = 'intent' | 'active' | 'reviewing' | 'completed' | 'a
 
 export type SessionType = 'planning' | 'implementation' | 'debugging' | 'exploration' | 'learning';
 
-export type LogType = 'question' | 'blocker' | 'insight' | 'experiment' | 'tried_failed';
+export type LogType = 'blocker' | 'idea' | 'note';
 
 export interface SessionIntent {
   goal: string;

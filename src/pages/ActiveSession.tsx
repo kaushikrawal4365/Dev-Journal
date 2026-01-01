@@ -113,7 +113,7 @@ function NewSessionForm({ state, setState }: {
                 </div>
 
                 <Button onClick={handleStart} disabled={!projectId.trim()} size="lg">
-                    Continue to Intent Lock
+                    Continue
                 </Button>
             </Card>
         </div>
@@ -188,48 +188,52 @@ function IntentLockForm({
 
     return (
         <div className="active-session">
-            <h1>Intent Lock</h1>
-            <p className="subtitle">Define your goal before you code. This cannot be edited once locked.</p>
+            <h1>Before you start...</h1>
+            <p className="subtitle">Define your goal before you code. This locks once you start.</p>
 
             <Card className="form-card">
                 <Input
-                    label="Primary Goal (What are you trying to achieve?)"
+                    label="What are you working on? *"
                     value={intent.goal}
                     onChange={(e) => setIntent({ ...intent, goal: e.target.value })}
-                    placeholder="Single sentence describing the primary objective"
+                    placeholder="e.g., Fix the login redirect bug"
                     error={errors.goal}
                 />
 
                 <Input
-                    label="Success Criteria (How will you know you're done?)"
+                    label="You'll be done when..."
                     multiline
-                    rows={3}
+                    rows={2}
                     value={intent.criteria}
                     onChange={(e) => setIntent({ ...intent, criteria: e.target.value })}
-                    placeholder="Clear, measurable criteria for completion"
+                    placeholder="e.g., User can sign in successfully"
                     error={errors.criteria}
                 />
 
-                <Input
-                    label="Known Unknowns (What are you uncertain about?)"
-                    multiline
-                    rows={3}
-                    value={intent.unknowns}
-                    onChange={(e) => setIntent({ ...intent, unknowns: e.target.value })}
-                    placeholder="Things you know you don't know"
-                />
+                <details className="advanced-section">
+                    <summary>More details (optional)</summary>
 
-                <Input
-                    label="Initial Hypothesis (How do you plan to approach this?)"
-                    multiline
-                    rows={3}
-                    value={intent.hypothesis}
-                    onChange={(e) => setIntent({ ...intent, hypothesis: e.target.value })}
-                    placeholder="Your initial plan or approach"
-                />
+                    <Input
+                        label="Questions you have"
+                        multiline
+                        rows={2}
+                        value={intent.unknowns}
+                        onChange={(e) => setIntent({ ...intent, unknowns: e.target.value })}
+                        placeholder="e.g., Not sure how OAuth state param works"
+                    />
+
+                    <Input
+                        label="Your approach"
+                        multiline
+                        rows={2}
+                        value={intent.hypothesis}
+                        onChange={(e) => setIntent({ ...intent, hypothesis: e.target.value })}
+                        placeholder="e.g., Will check Redux dev tools for state"
+                    />
+                </details>
 
                 <div className="input-wrapper">
-                    <label className="input-label">Difficulty Estimate (1-5)</label>
+                    <label className="input-label">How hard will this be? (1-5) *</label>
                     <div className="difficulty-selector">
                         {[1, 2, 3, 4, 5].map(n => (
                             <button
@@ -277,7 +281,7 @@ function IntentLockForm({
                 )}
 
                 <Button onClick={handleLock} size="lg">
-                    Lock Intent & Start Session
+                    Start Session
                 </Button>
             </Card>
         </div>
@@ -294,7 +298,7 @@ function LiveSession({
     state: AppState;
     setState: React.Dispatch<React.SetStateAction<AppState>>;
 }) {
-    const [logType, setLogType] = useState<LogType>('insight');
+    const [logType, setLogType] = useState<LogType>('idea');
     const [logContent, setLogContent] = useState('');
     const [parkingContent, setParkingContent] = useState('');
 
@@ -368,14 +372,14 @@ function LiveSession({
 
                         <div className="log-input-section">
                             <div className="log-type-selector">
-                                {(['insight', 'question', 'blocker', 'experiment', 'tried_failed'] as LogType[]).map(t => (
+                                {(['idea', 'blocker', 'note'] as LogType[]).map(t => (
                                     <Button
                                         key={t}
                                         size="sm"
                                         variant={logType === t ? 'primary' : 'ghost'}
                                         onClick={() => setLogType(t)}
                                     >
-                                        {t.replace('_', ' ')}
+                                        {t === 'idea' ? '💡 Idea' : t === 'blocker' ? '🚫 Blocker' : '📝 Note'}
                                     </Button>
                                 ))}
                             </div>
@@ -403,15 +407,15 @@ function LiveSession({
                                 session.logs.map(log => (
                                     <div key={log.id} className={`log-entry ${log.resolved ? 'log-resolved' : ''}`}>
                                         <div className="log-header">
-                                            <Badge variant={log.type === 'blocker' ? 'error' : log.type === 'insight' ? 'success' : 'default'}>
-                                                {log.type.replace('_', ' ')}
+                                            <Badge variant={log.type === 'blocker' ? 'error' : log.type === 'idea' ? 'success' : 'default'}>
+                                                {log.type === 'idea' ? '💡 Idea' : log.type === 'blocker' ? '🚫 Blocker' : '📝 Note'}
                                             </Badge>
                                             <span className="log-time">
                                                 {new Date(log.timestamp).toLocaleTimeString()}
                                             </span>
                                         </div>
                                         <div className="log-content">{log.content}</div>
-                                        {(log.type === 'blocker' || log.type === 'question') && (
+                                        {log.type === 'blocker' && (
                                             <Button
                                                 size="sm"
                                                 variant="ghost"
@@ -434,8 +438,8 @@ function LiveSession({
                 {/* Sidebar - Parking Lot */}
                 <div className="session-sidebar">
                     <Card>
-                        <h3>Parking Lot</h3>
-                        <p className="parking-subtitle">Dump distracting ideas here for later</p>
+                        <h3>Ideas for later</h3>
+                        <p className="parking-subtitle">Capture distracting ideas to stay focused</p>
 
                         <div className="parking-input">
                             <Input
@@ -509,8 +513,8 @@ function RetrospectiveForm({
 
     return (
         <div className="active-session">
-            <h1>Session Retrospective</h1>
-            <p className="subtitle">Reflect on what you learned and how it went</p>
+            <h1>How'd it go?</h1>
+            <p className="subtitle">Quick reflection on this session</p>
 
             <Card className="form-card">
                 <div className="input-wrapper">
@@ -572,8 +576,8 @@ function RetrospectiveForm({
 
                     <div className="input-wrapper">
                         <label className="input-label">
-                            Actual Difficulty (1-5)
-                            {session.intent && ` (Estimated: ${session.intent.difficultyEstimate})`}
+                            How hard was it really? (1-5)
+                            {session.intent && ` (You thought: ${session.intent.difficultyEstimate})`}
                         </label>
                         <div className="difficulty-selector">
                             {[1, 2, 3, 4, 5].map(n => (

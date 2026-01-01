@@ -260,3 +260,50 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* Advanced Section (Collapsible) */
+.advanced-section {
+    margin: var(--space-lg) 0;
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.advanced-section summary {
+    cursor: pointer;
+    font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
+    list-style: none;
+    user-select: none;
+    padding: var(--space-sm);
+    margin: calc(-1 * var(--space-md));
+    margin-bottom: 0;
+}
+
+.advanced-section summary::-webkit-details-marker {
+    display: none;
+}
+
+.advanced-section summary::before {
+    content: '▸ ';
+    display: inline-block;
+    margin-right: var(--space-sm);
+    transition: transform var(--transition-base);
+}
+
+.advanced-section[open] summary::before {
+    transform: rotate(90deg);
+}
+
+.advanced-section summary:hover {
+    color: var(--text-primary);
+}
+
+.advanced-section[open] {
+    padding-bottom: var(--space-lg);
+}
+
+.advanced-section[open] summary {
+    margin-bottom: var(--space-md);
+}
