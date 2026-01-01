@@ -1,5 +1,6 @@
 
 import type { Session, AppState } from '../types';
+import { sessionService } from '../services/sessionService';
 import { storageService } from '../services/storageService';
 import { Card } from '../components/Card';
 import { Badge } from '../components/Badge';
@@ -9,11 +10,24 @@ import './SessionDetail.css';
 interface SessionDetailProps {
     sessionId: string;
     state: AppState;
+    setState: React.Dispatch<React.SetStateAction<AppState>>;
     onBack: () => void;
 }
 
-export function SessionDetail({ sessionId, state, onBack }: SessionDetailProps) {
+export function SessionDetail({ sessionId, state, setState, onBack }: SessionDetailProps) {
     const session = storageService.getSession(state, sessionId);
+
+    const handleRestartSession = () => {
+        if (!session) return;
+
+        const newSession = sessionService.createSessionFromTemplate(session);
+        const newState = storageService.addSession(state, newSession);
+        const finalState = storageService.setActiveSession(newState, newSession.id);
+        setState(finalState);
+
+        // Navigate to active session
+        window.location.hash = '#active';
+    };
 
     if (!session) {
         return (
@@ -48,7 +62,14 @@ export function SessionDetail({ sessionId, state, onBack }: SessionDetailProps) 
 
     return (
         <div className="session-detail">
-            <Button onClick={onBack} variant="ghost" size="sm">← Back</Button>
+            <div className="detail-header-actions">
+                <Button onClick={onBack} variant="ghost" size="sm">← Back</Button>
+                {session.status === 'completed' && (
+                    <Button variant="primary" onClick={handleRestartSession}>
+                        🔄 Restart Session
+                    </Button>
+                )}
+            </div>
 
             <div className="detail-header">
                 <div>

@@ -126,4 +126,20 @@ export const sessionService = {
     detectAbandonedSessions(sessions: Session[]): Session[] {
         return sessions.filter(s => s.status === 'intent' || s.status === 'active');
     },
+
+    // Create a new session from a completed session (restart/retry)
+    createSessionFromTemplate(templateSession: Session): Session {
+        return {
+            schemaVersion: storageService.getSchemaVersion(),
+            id: crypto.randomUUID(),
+            status: 'intent',
+            createdAt: Date.now(),
+            intentLocked: false,
+            projectId: templateSession.projectId,
+            type: templateSession.type,
+            intent: templateSession.intent,
+            logs: [],
+            parentSessionId: templateSession.id
+        };
+    },
 };

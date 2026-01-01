@@ -77,6 +77,7 @@ function App() {
           <SessionDetail
             sessionId={selectedSessionId}
             state={state}
+            setState={setState}
             onBack={handleBackToDashboard}
           />
         )}

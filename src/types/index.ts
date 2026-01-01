@@ -54,6 +54,7 @@ export interface Session {
   intent?: SessionIntent;
   logs: LogEntry[];
   retrospective?: SessionRetrospective;
+  parentSessionId?: string; // For tracking session restarts
 }
 
 export interface AppState {
