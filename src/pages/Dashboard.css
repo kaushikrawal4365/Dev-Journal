@@ -1,0 +1,112 @@
+.dashboard {
+    width: 100%;
+    max-width: 1200px;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-2xl);
+}
+
+.dashboard-subtitle {
+    color: var(--text-secondary);
+    margin-top: var(--space-xs);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-lg);
+    margin-bottom: var(--space-2xl);
+}
+
+.stat-card {
+    text-align: center;
+}
+
+.stat-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-tertiary);
+    margin-bottom: var(--space-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.stat-value {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+}
+
+.stat-log-type {
+    font-size: var(--font-size-lg);
+    text-transform: capitalize;
+    color: var(--accent-secondary);
+}
+
+.filter-bar {
+    display: flex;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xl);
+    flex-wrap: wrap;
+}
+
+.session-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.empty-state {
+    text-align: center;
+    padding: var(--space-2xl);
+    color: var(--text-tertiary);
+}
+
+.session-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.session-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-lg);
+}
+
+.session-card-header h3 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--space-xs);
+}
+
+.session-goal {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    margin: 0;
+}
+
+.session-badges {
+    display: flex;
+    gap: var(--space-sm);
+    flex-shrink: 0;
+}
+
+.session-card-footer {
+    display: flex;
+    gap: var(--space-lg);
+    font-size: var(--font-size-sm);
+    color: var(--text-tertiary);
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--border-subtle);
+}
+
+.session-date,
+.session-confidence,
+.session-difficulty {
+    display: inline-flex;
+    align-items: center;
+}
